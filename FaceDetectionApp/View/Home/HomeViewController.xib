@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController" customModule="FaceDetectionApp" customModuleProvider="target">
             <connections>
+                <outlet property="toCameraViewButton" destination="1TB-3h-CrX" id="hSV-Pj-4FG"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zqP-pX-77z"/>
             </connections>
         </placeholder>
@@ -16,7 +17,17 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1TB-3h-CrX">
+                    <rect key="frame" x="184" y="433" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
+            </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="1TB-3h-CrX" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="5tD-FY-F43"/>
+                <constraint firstItem="1TB-3h-CrX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qk6-4C-DAK"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="139" y="154"/>
         </view>

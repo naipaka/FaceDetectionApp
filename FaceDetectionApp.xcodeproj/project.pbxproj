@@ -20,6 +20,7 @@
 		7E1098BE251B1183006F5B89 /* Injectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1098BD251B1183006F5B89 /* Injectable.swift */; };
 		7E1098C8251B1485006F5B89 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1098C6251B1485006F5B89 /* CameraViewController.swift */; };
 		7E1098C9251B1485006F5B89 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1098C7251B1485006F5B89 /* CameraViewController.xib */; };
+		7E1098CC251B1766006F5B89 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1098CB251B1766006F5B89 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		7E1098BD251B1183006F5B89 /* Injectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injectable.swift; sourceTree = "<group>"; };
 		7E1098C6251B1485006F5B89 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		7E1098C7251B1485006F5B89 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
+		7E1098CB251B1766006F5B89 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		84FB580C2D8A6A4ACD020D16 /* Pods_FaceDetectionAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceDetectionAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E66A303EF08D51842B70B /* Pods-FaceDetectionAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionAppTests.release.xcconfig"; path = "Target Support Files/Pods-FaceDetectionAppTests/Pods-FaceDetectionAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		B35ECCB722A5F224EF701ED7 /* Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig"; path = "Target Support Files/Pods-FaceDetectionApp-FaceDetectionAppUITests/Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				7E10988B251AFE16006F5B89 /* AppDelegate.swift */,
 				7E1098C2251B135A006F5B89 /* View */,
+				7E1098CA251B174F006F5B89 /* ViewModel */,
 				7E1098C1251B1355006F5B89 /* Protocol */,
 				7E109894251AFE18006F5B89 /* Assets.xcassets */,
 				7E109896251AFE18006F5B89 /* LaunchScreen.storyboard */,
@@ -181,6 +184,14 @@
 				7E1098C7251B1485006F5B89 /* CameraViewController.xib */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		7E1098CA251B174F006F5B89 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7E1098CB251B1766006F5B89 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		9C000243308A75B6BE6AE901 /* Pods */ = {
@@ -467,6 +478,7 @@
 				7E109890251AFE16006F5B89 /* HomeViewController.swift in Sources */,
 				7E1098C8251B1485006F5B89 /* CameraViewController.swift in Sources */,
 				7E1098BE251B1183006F5B89 /* Injectable.swift in Sources */,
+				7E1098CC251B1766006F5B89 /* HomeViewModel.swift in Sources */,
 				7E10988C251AFE16006F5B89 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
