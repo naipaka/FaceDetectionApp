@@ -100,9 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				7E10988B251AFE16006F5B89 /* AppDelegate.swift */,
-				7E10988F251AFE16006F5B89 /* HomeViewController.swift */,
-				7E1098BB251B10BB006F5B89 /* HomeViewController.xib */,
-				7E1098BD251B1183006F5B89 /* Injectable.swift */,
+				7E1098C2251B135A006F5B89 /* View */,
+				7E1098C1251B1355006F5B89 /* Protocol */,
 				7E109894251AFE18006F5B89 /* Assets.xcassets */,
 				7E109896251AFE18006F5B89 /* LaunchScreen.storyboard */,
 				7E109899251AFE18006F5B89 /* Info.plist */,
@@ -126,6 +125,31 @@
 				7E1098AF251AFE18006F5B89 /* Info.plist */,
 			);
 			path = FaceDetectionAppUITests;
+			sourceTree = "<group>";
+		};
+		7E1098C1251B1355006F5B89 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				7E1098BD251B1183006F5B89 /* Injectable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		7E1098C2251B135A006F5B89 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7E1098C3251B1367006F5B89 /* Home */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7E1098C3251B1367006F5B89 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7E10988F251AFE16006F5B89 /* HomeViewController.swift */,
+				7E1098BB251B10BB006F5B89 /* HomeViewController.xib */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
