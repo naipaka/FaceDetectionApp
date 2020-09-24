@@ -13,7 +13,7 @@ import RxCocoa
 class HomeViewController: UIViewController, Injectable {
 
     typealias Dependency = HomeViewModel
-    private var viewModel: HomeViewModel
+    private var viewModel: HomeViewModelType
 
     @IBOutlet weak var toCameraViewButton: UIButton!
 
@@ -39,15 +39,23 @@ class HomeViewController: UIViewController, Injectable {
     private func onViewDidLoad() {
         // input
         toCameraViewButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                let vc = CameraViewController()
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }).disposed(by: disposeBag)
+            .bind(to: viewModel.input.didTapToCameraViewButtonTrigger)
+            .disposed(by: disposeBag)
 
         // output
         viewModel.output.toCameraViewButtonTitle
             .bind(to: toCameraViewButton.rx.title())
             .disposed(by: disposeBag)
+
+        viewModel.output.navigateToCameraViewStream
+            .bind { [weak self] in self?.navigateToCameraView()}
+            .disposed(by: disposeBag)
+    }
+
+    private func navigateToCameraView() {
+        let viewModel = CameraViewModel()
+        let vc = CameraViewController(with: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

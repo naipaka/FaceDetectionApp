@@ -10,10 +10,13 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol HomeViewModelInput {}
+protocol HomeViewModelInput {
+    var didTapToCameraViewButtonTrigger: PublishSubject<Void> { get }
+}
 
 protocol HomeViewModelOutput {
     var toCameraViewButtonTitle: Observable<String> { get }
+    var navigateToCameraViewStream: PublishSubject<Void> { get }
 }
 
 protocol HomeViewModelType {
@@ -28,11 +31,21 @@ final class HomeViewModel: Injectable, HomeViewModelType, HomeViewModelInput, Ho
     var input: HomeViewModelInput { return self }
     var output: HomeViewModelOutput { return self }
 
+    // MARK: - input
+    var didTapToCameraViewButtonTrigger = PublishSubject<Void>()
+
     // MARK: - output
     var toCameraViewButtonTitle: Observable<String>
+    var navigateToCameraViewStream = PublishSubject<Void>()
+
+    private let disposeBag = DisposeBag()
 
     // MARK: - injectable
     init(with dependency: Void) {
-        self.toCameraViewButtonTitle = Observable.just("Activate camera")
+        toCameraViewButtonTitle = Observable.just("Activate camera")
+
+        didTapToCameraViewButtonTrigger
+            .bind(to: navigateToCameraViewStream)
+            .disposed(by: disposeBag)
     }
 }
