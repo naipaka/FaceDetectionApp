@@ -52,6 +52,7 @@ class CameraViewController: UIViewController, Injectable {
 
     // MARK: - private
     private func onViewDidLoad() {
+        navigationItem.setRightBarButton(UIBarButtonItem(), animated: true)
         bind()
         setupVideoProcessing()
     }
@@ -93,6 +94,10 @@ class CameraViewController: UIViewController, Injectable {
         // output
         viewModel.output.detectionResultImage
             .bind(to: detectionResultImageView.rx.image)
+            .disposed(by: disposeBag)
+
+        viewModel.output.navigationItemRightButtonTitle
+            .bind(to: (navigationItem.rightBarButtonItem?.rx.title)!)
             .disposed(by: disposeBag)
     }
 }

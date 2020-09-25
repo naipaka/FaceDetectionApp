@@ -18,6 +18,7 @@ protocol CameraViewModelInput {
 
 protocol CameraViewModelOutput {
     var detectionResultImage: PublishSubject<UIImage?> { get }
+    var navigationItemRightButtonTitle: Observable<String> { get }
 }
 
 protocol CameraViewModelType {
@@ -37,6 +38,7 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
 
     // MARK: - output
     var detectionResultImage = PublishSubject<UIImage?>()
+    var navigationItemRightButtonTitle: Observable<String>
 
     private var sampleBuffer: CMSampleBuffer?
     private var outputType: OutputType = .rect
@@ -46,6 +48,8 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
 
     // MARK: - injectable
     init(with dependency: Void) {
+        navigationItemRightButtonTitle = Observable.just("Switch")
+
         guard let imagePath = Bundle.main.path(forResource: "CatFace", ofType: "png") else { return }
         guard let image = UIImage(contentsOfFile: imagePath) else { return }
         catCgImage = image.cgImage
