@@ -18,6 +18,7 @@ class CameraViewController: UIViewController, Injectable {
 
     @IBOutlet weak var detectionResultImageView: UIImageView!
 
+    private var videoOrientation: AVCaptureVideoOrientation?
     private let avCaptureSession = AVCaptureSession()
     private let capturedOutputStream = PublishSubject<CMSampleBuffer>()
 
@@ -64,14 +65,19 @@ class CameraViewController: UIViewController, Injectable {
     }
 
     private func setupVideoProcessing() {
+        // videoOrientation
+        DispatchQueue.main.async {
+            self.videoOrientation = self.appOrientation.convertToVideoOrientation()
+        }
+
         avCaptureSession.sessionPreset = .photo
 
-        // addInput
+        // AVCaptureSession#addInput
         guard let device = AVCaptureDevice.default(for: .video) else { return }
         guard let deviceInput = try? AVCaptureDeviceInput(device: device) else { return }
         avCaptureSession.addInput(deviceInput)
 
-        // addOutput
+        // AVCaptureSession#addOutput
         let videoDataOutput = AVCaptureVideoDataOutput()
         videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)]
         videoDataOutput.setSampleBufferDelegate(self, queue: .global())
@@ -95,5 +101,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         capturedOutputStream.onNext(sampleBuffer)
+        guard let videoOrientation = videoOrientation else { return }
+        connection.videoOrientation = videoOrientation
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        DispatchQueue.main.async {
+            self.videoOrientation = self.appOrientation.convertToVideoOrientation()
+        }
     }
 }
