@@ -107,9 +107,7 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
 
         faceObservations
             .compactMap { $0.boundingBox.converted(to: CGSize(width: width, height: height)) }
-            .forEach{
-                draw(newContext, in: $0)
-            }
+            .forEach{ draw(newContext, in: $0) }
 
         CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
 

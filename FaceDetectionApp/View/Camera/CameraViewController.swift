@@ -19,7 +19,12 @@ class CameraViewController: UIViewController, Injectable {
     @IBOutlet weak var detectionResultImageView: UIImageView!
 
     private var videoOrientation: AVCaptureVideoOrientation?
-    private let avCaptureSession = AVCaptureSession()
+    private var avCaptureSession: AVCaptureSession {
+        let avCaptureSesstion = AVCaptureSession()
+        avCaptureSesstion.sessionPreset = .photo
+        return avCaptureSesstion
+    }
+    private var videoDevice: AVCaptureDevice?
     private let capturedOutputStream = PublishSubject<CMSampleBuffer>()
 
     private let disposeBag = DisposeBag()
@@ -40,11 +45,6 @@ class CameraViewController: UIViewController, Injectable {
         onViewDidLoad()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        onViewDidAppear()
-    }
-
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         onViewDidDisappear()
@@ -52,43 +52,29 @@ class CameraViewController: UIViewController, Injectable {
 
     // MARK: - private
     private func onViewDidLoad() {
-        navigationItem.setRightBarButton(UIBarButtonItem(), animated: true)
+        setupUI()
         bind()
-        setupVideoProcessing()
-    }
-
-    private func onViewDidAppear() {
-        avCaptureSession.startRunning()
+        setupVideoProcessing(withPosition: .back)
     }
 
     private func onViewDidDisappear() {
         avCaptureSession.stopRunning()
     }
 
-    private func setupVideoProcessing() {
-        // videoOrientation
-        DispatchQueue.main.async {
-            self.videoOrientation = self.appOrientation.convertToVideoOrientation()
-        }
-
-        avCaptureSession.sessionPreset = .photo
-
-        // AVCaptureSession#addInput
-        guard let device = AVCaptureDevice.default(for: .video) else { return }
-        guard let deviceInput = try? AVCaptureDeviceInput(device: device) else { return }
-        avCaptureSession.addInput(deviceInput)
-
-        // AVCaptureSession#addOutput
-        let videoDataOutput = AVCaptureVideoDataOutput()
-        videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)]
-        videoDataOutput.setSampleBufferDelegate(self, queue: .global())
-        avCaptureSession.addOutput(videoDataOutput)
+    private func setupUI() {
+        navigationItem.setRightBarButton(UIBarButtonItem(), animated: true)
     }
 
     private func bind() {
         // input
         capturedOutputStream
             .bind(to: viewModel.input.captureOutputTrigger)
+            .disposed(by: disposeBag)
+
+        navigationItem.rightBarButtonItem?.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.switchCaptureDevicePosition()
+            })
             .disposed(by: disposeBag)
 
         // output
@@ -99,6 +85,35 @@ class CameraViewController: UIViewController, Injectable {
         viewModel.output.navigationItemRightButtonTitle
             .bind(to: (navigationItem.rightBarButtonItem?.rx.title)!)
             .disposed(by: disposeBag)
+    }
+
+    private func setupVideoProcessing(withPosition position: AVCaptureDevice.Position) {
+        // videoOrientation
+        DispatchQueue.main.async {
+            self.videoOrientation = self.appOrientation.convertToVideoOrientation()
+        }
+
+        // AVCaptureSession#addInput
+        videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position)
+        guard let videoDevice = videoDevice else { return }
+        guard let deviceInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
+        avCaptureSession.addInput(deviceInput)
+
+        // AVCaptureSession#addOutput
+        let videoDataOutput = AVCaptureVideoDataOutput()
+        videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32BGRA)]
+        videoDataOutput.setSampleBufferDelegate(self, queue: .global())
+        avCaptureSession.addOutput(videoDataOutput)
+
+        avCaptureSession.startRunning()
+    }
+
+    private func switchCaptureDevicePosition() {
+        avCaptureSession.stopRunning()
+        avCaptureSession.inputs.forEach { avCaptureSession.removeInput($0) }
+        avCaptureSession.outputs.forEach { avCaptureSession.removeOutput($0) }
+
+        setupVideoProcessing(withPosition: (videoDevice?.position == .front ? .back : .front))
     }
 }
 
