@@ -22,6 +22,11 @@
 		7E1098C9251B1485006F5B89 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E1098C7251B1485006F5B89 /* CameraViewController.xib */; };
 		7E1098CC251B1766006F5B89 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1098CB251B1766006F5B89 /* HomeViewModel.swift */; };
 		7E1098CE251B3016006F5B89 /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1098CD251B3016006F5B89 /* CameraViewModel.swift */; };
+		7EF91627251C81B9005174EA /* CGRect+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91626251C81B9005174EA /* CGRect+Extension.swift */; };
+		7EF9163C251C8F8A005174EA /* CatFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EF9163B251C8F8A005174EA /* CatFace.png */; };
+		7EF91641251CA03D005174EA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91640251CA03D005174EA /* UIViewController+Extension.swift */; };
+		7EF91649251CA308005174EA /* UIInterfaceOrientation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91648251CA307005174EA /* UIInterfaceOrientation+Extension.swift */; };
+		7EF9165A251D8B26005174EA /* OutputType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF91659251D8B26005174EA /* OutputType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +68,11 @@
 		7E1098C7251B1485006F5B89 /* CameraViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		7E1098CB251B1766006F5B89 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		7E1098CD251B3016006F5B89 /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		7EF91626251C81B9005174EA /* CGRect+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGRect+Extension.swift"; sourceTree = "<group>"; };
+		7EF9163B251C8F8A005174EA /* CatFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CatFace.png; sourceTree = "<group>"; };
+		7EF91640251CA03D005174EA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		7EF91648251CA307005174EA /* UIInterfaceOrientation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIInterfaceOrientation+Extension.swift"; sourceTree = "<group>"; };
+		7EF91659251D8B26005174EA /* OutputType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputType.swift; sourceTree = "<group>"; };
 		84FB580C2D8A6A4ACD020D16 /* Pods_FaceDetectionAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceDetectionAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C9E66A303EF08D51842B70B /* Pods-FaceDetectionAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionAppTests.release.xcconfig"; path = "Target Support Files/Pods-FaceDetectionAppTests/Pods-FaceDetectionAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		B35ECCB722A5F224EF701ED7 /* Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig"; path = "Target Support Files/Pods-FaceDetectionApp-FaceDetectionAppUITests/Pods-FaceDetectionApp-FaceDetectionAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,12 +135,15 @@
 			isa = PBXGroup;
 			children = (
 				7E10988B251AFE16006F5B89 /* AppDelegate.swift */,
+				7EF91658251D8AF1005174EA /* Model */,
 				7E1098C2251B135A006F5B89 /* View */,
 				7E1098CA251B174F006F5B89 /* ViewModel */,
 				7E1098C1251B1355006F5B89 /* Protocol */,
+				7EF91625251C819C005174EA /* Extension */,
 				7E109894251AFE18006F5B89 /* Assets.xcassets */,
 				7E109896251AFE18006F5B89 /* LaunchScreen.storyboard */,
 				7E109899251AFE18006F5B89 /* Info.plist */,
+				7EF91632251C8EF9005174EA /* Resource */,
 			);
 			path = FaceDetectionApp;
 			sourceTree = "<group>";
@@ -195,6 +208,32 @@
 				7E1098CD251B3016006F5B89 /* CameraViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7EF91625251C819C005174EA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7EF91626251C81B9005174EA /* CGRect+Extension.swift */,
+				7EF91640251CA03D005174EA /* UIViewController+Extension.swift */,
+				7EF91648251CA307005174EA /* UIInterfaceOrientation+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		7EF91632251C8EF9005174EA /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				7EF9163B251C8F8A005174EA /* CatFace.png */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		7EF91658251D8AF1005174EA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7EF91659251D8B26005174EA /* OutputType.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		9C000243308A75B6BE6AE901 /* Pods */ = {
@@ -332,6 +371,7 @@
 			files = (
 				7E109898251AFE18006F5B89 /* LaunchScreen.storyboard in Resources */,
 				7E1098C9251B1485006F5B89 /* CameraViewController.xib in Resources */,
+				7EF9163C251C8F8A005174EA /* CatFace.png in Resources */,
 				7E109895251AFE18006F5B89 /* Assets.xcassets in Resources */,
 				7E1098BC251B10BB006F5B89 /* HomeViewController.xib in Resources */,
 			);
@@ -480,7 +520,11 @@
 			files = (
 				7E109890251AFE16006F5B89 /* HomeViewController.swift in Sources */,
 				7E1098C8251B1485006F5B89 /* CameraViewController.swift in Sources */,
+				7EF91649251CA308005174EA /* UIInterfaceOrientation+Extension.swift in Sources */,
+				7EF91627251C81B9005174EA /* CGRect+Extension.swift in Sources */,
+				7EF9165A251D8B26005174EA /* OutputType.swift in Sources */,
 				7E1098BE251B1183006F5B89 /* Injectable.swift in Sources */,
+				7EF91641251CA03D005174EA /* UIViewController+Extension.swift in Sources */,
 				7E1098CC251B1766006F5B89 /* HomeViewModel.swift in Sources */,
 				7E10988C251AFE16006F5B89 /* AppDelegate.swift in Sources */,
 				7E1098CE251B3016006F5B89 /* CameraViewModel.swift in Sources */,

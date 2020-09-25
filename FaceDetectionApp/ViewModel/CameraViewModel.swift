@@ -38,11 +38,18 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
     // MARK: - output
     var detectionResultImage = PublishSubject<UIImage?>()
 
-    var sampleBuffer: CMSampleBuffer?
-    let disposeBag = DisposeBag()
+    private var sampleBuffer: CMSampleBuffer?
+    private var outputType: OutputType = .rect
+    private var catCgImage: CGImage?
+
+    private let disposeBag = DisposeBag()
 
     // MARK: - injectable
     init(with dependency: Void) {
+        guard let imagePath = Bundle.main.path(forResource: "CatFace", ofType: "png") else { return }
+        guard let image = UIImage(contentsOfFile: imagePath) else { return }
+        catCgImage = image.cgImage
+
         captureOutputTrigger
             .map { [weak self] in self?.sampleBuffer = $0 }
             .flatMapLatest { return self.getFaceObservations() }
@@ -84,7 +91,7 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
         let height = CVPixelBufferGetHeight(imageBuffer)
         let bitmapInfo = CGBitmapInfo(rawValue: (CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue))
 
-        guard let newContext = CGContext(
+        let newContext = CGContext(
             data: pixelBufferBaseAddres,
             width: width,
             height: height,
@@ -92,35 +99,33 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
             bytesPerRow: CVPixelBufferGetBytesPerRow(imageBuffer),
             space: CGColorSpaceCreateDeviceRGB(),
             bitmapInfo: bitmapInfo.rawValue
-            ) else
-        {
-            CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
-            return nil
-        }
-
-        let imageSize = CGSize(width: width, height: height)
-        let faseRects = faceObservations.compactMap {
-            getUnfoldRect(normalizedRect: $0.boundingBox, targetSize: imageSize)
-        }
-        faseRects.forEach{ self.drawRect($0, context: newContext) }
-
-        guard let imageRef = newContext.makeImage() else { return nil }
-
-        return UIImage(cgImage: imageRef, scale: 1.0, orientation: UIImage.Orientation.right)
-    }
-
-    private func getUnfoldRect(normalizedRect: CGRect, targetSize: CGSize) -> CGRect {
-        return CGRect(
-            x: normalizedRect.minX * targetSize.width,
-            y: normalizedRect.minY * targetSize.height,
-            width: normalizedRect.width * targetSize.width,
-            height: normalizedRect.height * targetSize.height
         )
+
+        faceObservations
+            .compactMap { $0.boundingBox.converted(to: CGSize(width: width, height: height)) }
+            .forEach{
+                draw(newContext, in: $0)
+            }
+
+        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
+
+        guard let imageRef = newContext?.makeImage() else { return nil }
+
+        return UIImage(cgImage: imageRef, scale: 1.0, orientation: UIImage.Orientation.up)
     }
 
-    private func drawRect(_ rect: CGRect, context: CGContext) {
-        context.setLineWidth(4.0)
-        context.setStrokeColor(UIColor.green.cgColor)
-        context.stroke(rect)
+    private func draw(_ context: CGContext?, in rect: CGRect) {
+        switch outputType {
+        case .rect:
+            context?.setLineWidth(4.0)
+            context?.setStrokeColor(UIColor.green.cgColor)
+            context?.stroke(rect)
+        case .cat:
+            guard let catCgImage = catCgImage else { return }
+            context?.draw(catCgImage, in: rect)
+        case .mosaic:
+            guard let catCgImage = catCgImage else { return }
+            context?.draw(catCgImage, in: rect)
+        }
     }
 }
