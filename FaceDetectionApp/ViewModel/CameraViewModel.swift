@@ -14,6 +14,7 @@ import Vision
 
 protocol CameraViewModelInput {
     var captureOutputTrigger: PublishSubject<CMSampleBuffer> { get }
+    var tappedImageTrigger: PublishSubject<UITapGestureRecognizer> { get }
 }
 
 protocol CameraViewModelOutput {
@@ -35,6 +36,7 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
 
     // MARK: - input
     var captureOutputTrigger = PublishSubject<CMSampleBuffer>()
+    var tappedImageTrigger = PublishSubject<UITapGestureRecognizer>()
 
     // MARK: - output
     var detectionResultImage = PublishSubject<UIImage?>()
@@ -59,6 +61,12 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
             .flatMapLatest { return self.getFaceObservations() }
             .map { [weak self] in return self?.getDetectionResultImage($0) }
             .bind(to: detectionResultImage)
+            .disposed(by: disposeBag)
+
+        tappedImageTrigger
+            .subscribe(onNext: { [weak self] _ in
+                self?.switchOutputType()
+            })
             .disposed(by: disposeBag)
     }
 
@@ -128,6 +136,17 @@ final class CameraViewModel: Injectable, CameraViewModelType, CameraViewModelInp
         case .mosaic:
             guard let catCgImage = catCgImage else { return }
             context?.draw(catCgImage, in: rect)
+        }
+    }
+
+    private func switchOutputType() {
+        switch outputType {
+        case .rect:
+            outputType = .cat
+        case .cat:
+            outputType = .rect
+        case .mosaic:
+            outputType = .rect
         }
     }
 }

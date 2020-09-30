@@ -17,13 +17,10 @@ class CameraViewController: UIViewController, Injectable {
     private var viewModel: CameraViewModelType
 
     @IBOutlet weak var detectionResultImageView: UIImageView!
+    private var pickerView = UIPickerView()
 
     private var videoOrientation: AVCaptureVideoOrientation?
-    private var avCaptureSession: AVCaptureSession {
-        let avCaptureSesstion = AVCaptureSession()
-        avCaptureSesstion.sessionPreset = .photo
-        return avCaptureSesstion
-    }
+    private var avCaptureSession = AVCaptureSession()
     private var videoDevice: AVCaptureDevice?
     private let capturedOutputStream = PublishSubject<CMSampleBuffer>()
 
@@ -62,6 +59,7 @@ class CameraViewController: UIViewController, Injectable {
     }
 
     private func setupUI() {
+        // UINavigationItem
         navigationItem.setRightBarButton(UIBarButtonItem(), animated: true)
     }
 
@@ -76,6 +74,13 @@ class CameraViewController: UIViewController, Injectable {
                 self?.switchCaptureDevicePosition()
             })
             .disposed(by: disposeBag)
+
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.rx.event
+            .bind(to: viewModel.input.tappedImageTrigger)
+            .disposed(by: disposeBag)
+        detectionResultImageView.isUserInteractionEnabled = true
+        detectionResultImageView.addGestureRecognizer(tapGesture)
 
         // output
         viewModel.output.detectionResultImage
@@ -92,6 +97,8 @@ class CameraViewController: UIViewController, Injectable {
         DispatchQueue.main.async {
             self.videoOrientation = self.appOrientation.convertToVideoOrientation()
         }
+
+        avCaptureSession.sessionPreset = .photo
 
         // AVCaptureSession#addInput
         videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position)
